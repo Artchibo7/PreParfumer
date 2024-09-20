@@ -11,6 +11,11 @@ body {
     width: 100%;
 }
 
+.h1Twig{
+    text-align: center;
+    color: rgb(218, 167, 13);
+}
+
 .securite-form{
     display: flex;
     align-items: center;
