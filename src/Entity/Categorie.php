@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[is_granted('ROLE_ADMIN')]
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
 {
