@@ -14,23 +14,23 @@
 					<a class="nav-link" href="#">Catalogue</a>
 				</li>
 
-				{% if  is_granted  ("ROLE_ADMIN") %}
+				{% if  is_granted  ("ROLE_EDITOR") %}
 
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							Menu Admin
 						</a>
 						<ul class="dropdown-menu">
-							{# <li>
+							<li>
 								<a class="dropdown-item" href="{{path('app_utilisateur_index')}}">Utilisateurs</a>
-							</li> #}
+							</li>
 							<li>
 								<a class="dropdown-item" href="{{path('app_categorie_index')}}">Categories</a>
 							</li>
-							{# <li>
+							<li>
 								<a class="dropdown-item" href="{{path('app_sous_categorie_index')}}">Sous Categories</a>
 							</li>
-							<li>
+							{# <li>
 								<a class="dropdown-item" href="{{path('app_produit_index')}}">Produits</a>
 								<a class="dropdown-item" href="{{path('app_sous_produit_index')}}">Sous Produits</a>
 							</li>
