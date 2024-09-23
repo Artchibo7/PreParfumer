@@ -12,32 +12,34 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Catalogue</a>
-					{# <a class="nav-link" href="{{path ('app_catalogue')}}">Catalogue</a> #}
 				</li>
 
-				{# <li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Catégories
-					</a>
-					<ul class="dropdown-menu">
+				{% if categories is defined %}
 
-						{% for categorie in categories %}
-							<li>
-								<a class="dropdown-item text-success" href="">{{categorie.Nom}}</a>
-							</li>
 
-							{% for souscategorie in categorie.sousCategories %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Catégories
+						</a>
+						<ul class="dropdown-menu">
+
+							{% for categorie in categories %}
+								<li>
+									<a class="dropdown-item text-success" style="font-weight: bold;" href="#">{{categorie.Nom}}</a>
+								</li>
+
+								{% for sousCategorie in categorie.sousCategories %}
 									<li>
-								<a class="dropdown-item" href="">{{sousCategorie.Nom}}</a>
-							</li>
+										<a class="dropdown-item" href="{{path ('app_home_produit_filter', {'id': sousCategorie.id})}}">{{sousCategorie.Nom}}</a>
+									</li>
+								{% endfor %}
+
+								<li><hr class="dropdown-divider"></li>
 							{% endfor %}
 
-							<li><hr class="dropdown-divider"></li>
-						{% endfor %}
-						
-					</ul>
-				</li> #}
-
+						</ul>
+					</li>
+				{% endif %}
 				{% if  is_granted  ("ROLE_EDITOR") %}
 
 					<li class="nav-item dropdown">
@@ -57,7 +59,7 @@
 							<li>
 								<a class="dropdown-item" href="{{path ('app_produit_index')}}">Produits</a>
 							</li>
-							
+
 							<li><hr class="dropdown-divider"></li>
 							<li>
 								<a class="dropdown-item" href="#">Something else here</a>
@@ -65,10 +67,32 @@
 						</ul>
 					</li>
 					<li><hr class="dropdown-divider"></li>
-				
+
 				{% endif %}
+
+				{% if app.user == false %}
+
+					<li class="nav-item">
+						<a href="{{path('app_register')}}" class="nav-link btn btn-light">S'inscrire</a>
+					</li>
+					<li class="nav-item">
+
+						<a href="{{path('app_login')}}" class="nav-link btn btn-light">Se connecter</a>
+					</li>
+
+				{% endif %}
+
+				{% if app.user == true %}
+					<li class="nav-item">
+						<a href="{{path('app_logout')}}" class="nav-link btn btn-light">Se deconnecter</a>
+					</li>
+				{% endif %}
+
+
 			</ul>
-			<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
+
+			{# <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 				<li><hr class="dropdown-divider"></li>
 
 				<li class="nav-item">
@@ -82,14 +106,15 @@
 				</li>
 				<li><hr class="dropdown-divider"></li>
 
-			</ul>
-			{# <form class="d-flex" role="search">
+			</ul> #}
+			
+			<form class="d-flex" role="search">
 				<input class="form-control me-2" type="search" placeholder="" aria-label="Search">
 				<button class="btn btn-outline-success d-flex align-items-center" type="submit">
 					<i class="fas fa-search me-2"></i>
 					Rechercher
 				</button>
-			</form> #}
+			</form>
 
 
 		</div>
