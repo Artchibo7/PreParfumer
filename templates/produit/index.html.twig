@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit index
+{% endblock %}
+
+{% block body %}
+	<div class="container"><br><br>
+		<h1 class="h1Twig">Produits</h1><br>
+
+		{% include('Includes/_flash_message.html.twig') %}
+
+		<table class="table">
+			<thead class="table-group-divider">
+				<tr>
+					<th>Id</th>
+					<th>Nom</th>
+					<th>Description</th>
+					<th>Prix</th>
+					<th>Stock</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody class="table-group-divider">
+				{% for produit in produits %}
+					<tr>
+						<td>{{ produit.id }}</td>
+						<td>{{ produit.Nom }}</td>
+						<td>{{ produit.Description|slice(0, 70) }}
+							...</td>
+						<td>{{ produit.Prix }}€</td>
+						<td>{{ produit.stock }} pièces</td>
+						<td>
+							{% if produit.stock > 0 %}
+								<span class="text-success">En stock</span>
+							{% else %}
+								<span class="text-danger">Rupture de stock</span%}</td> {% endif %}
+								<td>
+									<a href="{{ path('app_produit_show', {'id': produit.id}) }}" class="btn btn-primary m-1">Voir</a>
+									<a href="{{ path('app_produit_edit', {'id': produit.id}) }}" class="btn btn-success m-1">Éditer</a>
+									<a href="{{ path('app_produit_stock_ajout', {'id': produit.id}) }}" class="btn btn-outline-info m-1">Ajouter le stock</a>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="5">Aucun enregistrement</td>
+							</tr>
+						{% endfor %}
+					</tr>
+				</tbody>
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_produit_new') }}" class="btn btn-warning m-1">Créer un nouveau produit</a>
+	</div>
+{% endblock %}

@@ -1,8 +1,7 @@
 {{ form_start(form) }}
-    <label for="" class="text-info">Nom de la sous-catégorie</label>
-
+    <label class="text-info">Nom de la sous-catégorie</label>
     {{ form_widget(form.Nom, {'attr': {'class':'form form-control'}}) }}
-    <label for="" class="text-info">La catégorie</label>
+    <label class="text-info">La catégorie</label>
     {{ form_widget(form.Categorie, {'attr': {'class':'form form-control'}}) }}
     <button class="btn btn-info m-1">{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}

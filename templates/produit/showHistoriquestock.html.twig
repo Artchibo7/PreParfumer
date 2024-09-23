@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<div class="container">
+		<table class="table">
+			<tr>
+				<th>id</th>
+				<th>Quantité</th>
+				<th>Date d'ajout</th>
+			</tr>
+			{% for produitAjouter in produitsAjouter %}
+				<td>{{ produitAjouter.id }}</td>
+				<td>{{ produitAjouter.quantite }}</td>
+				<td>{{ produitAjouter.dateAjout|date('d-M-Y H:i:s') }}</td>
+			{% endfor %}
+		</table>
+
+		<a href="{{ path('app_produit_index') }}" class="btn btn-primary m-1">Retour à la liste</a>
+
+	</div>
+
+{% endblock %}

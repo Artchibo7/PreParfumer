@@ -15,9 +15,11 @@ body {
     width: 100%;
 }
 
-.h1Twig{
+h1, h2{
     text-align: center;
     color: rgb(218, 167, 13);
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .securite-form{

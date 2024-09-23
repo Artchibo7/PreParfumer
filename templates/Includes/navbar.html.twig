@@ -8,11 +8,35 @@
 		<div class="collapse navbar-collapse" id="navbarScroll">
 			<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="#">Accueil</a>
+					<a class="nav-link active" aria-current="page" href="{{path ('app_home')}}">Accueil</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Catalogue</a>
+					{# <a class="nav-link" href="{{path ('app_catalogue')}}">Catalogue</a> #}
 				</li>
+
+				{# <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Catégories
+					</a>
+					<ul class="dropdown-menu">
+
+						{% for categorie in categories %}
+							<li>
+								<a class="dropdown-item text-success" href="">{{categorie.Nom}}</a>
+							</li>
+
+							{% for souscategorie in categorie.sousCategories %}
+									<li>
+								<a class="dropdown-item" href="">{{sousCategorie.Nom}}</a>
+							</li>
+							{% endfor %}
+
+							<li><hr class="dropdown-divider"></li>
+						{% endfor %}
+						
+					</ul>
+				</li> #}
 
 				{% if  is_granted  ("ROLE_EDITOR") %}
 
@@ -22,36 +46,26 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li>
-								<a class="dropdown-item" href="{{path('app_utilisateur_index')}}">Utilisateurs</a>
+								<a class="dropdown-item" href="{{path ('app_utilisateur_index')}}">Utilisateurs</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="{{path('app_categorie_index')}}">Categories</a>
+								<a class="dropdown-item" href="{{path ('app_categorie_index')}}">Categories</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="{{path('app_sous_categorie_index')}}">Sous Categories</a>
-							</li>
-							{# <li>
-								<a class="dropdown-item" href="{{path('app_produit_index')}}">Produits</a>
-								<a class="dropdown-item" href="{{path('app_sous_produit_index')}}">Sous Produits</a>
+								<a class="dropdown-item" href="{{path ('app_sous_categorie_index')}}">Sous Categories</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="{{path('app_statut_index')}}">Status</a>
+								<a class="dropdown-item" href="{{path ('app_produit_index')}}">Produits</a>
 							</li>
-							<li>
-								<a class="dropdown-item" href="{{path('app_adresse_index')}}">Adresse</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{path('app_contact_index')}}">Contacts</a>
-							</li> #}
+							
 							<li><hr class="dropdown-divider"></li>
 							<li>
 								<a class="dropdown-item" href="#">Something else here</a>
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link disabled" aria-disabled="true">je ne sais pas encore</a>
-					</li>
+					<li><hr class="dropdown-divider"></li>
+				
 				{% endif %}
 			</ul>
 			<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
@@ -69,13 +83,13 @@
 				<li><hr class="dropdown-divider"></li>
 
 			</ul>
-			<form class="d-flex" role="search">
+			{# <form class="d-flex" role="search">
 				<input class="form-control me-2" type="search" placeholder="" aria-label="Search">
 				<button class="btn btn-outline-success d-flex align-items-center" type="submit">
 					<i class="fas fa-search me-2"></i>
 					Rechercher
 				</button>
-			</form>
+			</form> #}
 
 
 		</div>

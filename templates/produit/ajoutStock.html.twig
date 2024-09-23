@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter le stock
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<br><br><br>
+		<h1 class="h1Twig">Ajouter le stock du :
+			{{ produit.Nom }}</h1><br><br><br>
+
+		{% include('Includes/_flash_message.html.twig') %}
+
+		{{ form_start(form) }}
+		{{ form_row(form.quantite, {'attr': {'class':'form form-control'}}) }}
+		<input type="submit" value="Ajouter le stock" class="btn btn-info m-1">
+		<a href="{{ path('app_produit_index') }}" class="btn btn-primary m-1">Retour à la liste</a>
+
+		{{ form_end(form) }}
+
+	</div>
+{% endblock %}

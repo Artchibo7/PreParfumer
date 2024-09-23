@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class="card mb-12" style="margin-top: 70px">
+			<div class="row g-0">
+				<div class="col-md-4">
+					<img src="{{produit.image}}" class="card-img-top" alt="...">
+				</div>
+				<div class="col-md-8">
+					<div class="card-body">
+						<h2 class="card-title h1Twig">{{ produit.Nom }}</h2>
+						<p class="card-text">{{ produit.Description }}
+							...</p>
+							<h5>{{produit.Prix}}€</h5>
+						<a href="#" class="text-success">Ajouter au panier</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h2 class="h1Twig">Derniers produits ajoutés</h2>
+
+		<div class="row">
+
+			{% for produit in produits %}
+				<div class="col-md-3 mt-4">
+					<div class="card" style="width: 18rem;">
+						<img src="{{produit.image}}" class="card-img-top" alt="...">
+						<div class="card-body">
+							<a style="text-decoration: none" href="{{ path('app_home_produit_show', {'id': produit.id}) }}">
+								<h5 class="card-title">{{ produit.Nom }}</h5>
+							</a>
+							<p class="card-text">{{ produit.Description|slice(0, 50) }}
+								...</p>
+								<h5>{{produit.Prix}}€</h5>
+							<a href="#" class="btn btn-outline-success m-1">Ajouter au panier</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

@@ -4,15 +4,16 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<h1 class="h1Twig">SousCategories</h1>
+	<div class="container"><br><br>
+
+		<h1 class="h1Twig">SousCategories</h1><br><br>
 
 		<table class="table">
 			<thead class="table-group-divider">
 				<tr>
 					<th>Id</th>
 					<th>Nom</th>
-                    <th>Catégorie</th>
+					<th>Catégorie</th>
 					<th>actions</th>
 				</tr>
 			</thead>
@@ -35,6 +36,6 @@
 			</tbody>
 		</table>
 
-		<a href="{{ path('app_sous_categorie_new') }}" class="btn btn-outline-primary m-1">Créer un nouvelle sous categorie</a>
+		<a href="{{ path('app_sous_categorie_new') }}" class="btn btn-outline-warning m-1">Créer un nouvelle sous categorie</a>
 	</div>
 {% endblock %}
