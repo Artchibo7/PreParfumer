@@ -26,7 +26,7 @@
 					<td>{{ utilisateur.email }}</td>
 				</tr>
 				<tr>
-					<th>Roles</th>
+					<th>Rôles</th>
 					<td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
 				</tr>
 			</tbody>
@@ -34,7 +34,7 @@
 
 		<a href="{{ path('app_utilisateur_index') }}" class="btn btn-primary m-1">Retour à la liste</a>
 
-		<a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-success m-1">Éditeur</a>
+		<a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-success m-1">Éditer</a>
 
 		{{ include('utilisateur/_delete_form.html.twig') }}
 	</div>

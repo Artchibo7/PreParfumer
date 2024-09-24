@@ -70,5 +70,21 @@ class HomeController extends AbstractController
             'categories' => $CategorieRepository->findAll(),
         ]);
     }
+
+    #[Route('/catalogue', name: 'app_catalogue_index', methods: ['GET'])]
+    public function catalogue(ProduitRepository $produitRepository, CategorieRepository $CategorieRepository, Request $request, PaginatorInterface $paginator): Response
+    {
+        $data = $produitRepository->findBy([], ['id' => 'DESC']);
+        $produits = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            4
+        );
+        return $this->render('home/catalogue.html.twig', [
+            'produits' => $produits,
+            'categories' => $CategorieRepository->findAll()
+        ]);
+    }
+
     
 }

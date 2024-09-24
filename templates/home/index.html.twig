@@ -6,27 +6,56 @@
 {% block body %}
 	<div class="container">
 
-		<h1 class="h1Twig">Nos produits</h1>
+		<h1 class="h1Twig">Pre Parfumer</h1>
 
-		<div class="row">
+		<div class="container width-100Vh" style="">
 
-			{% for produit in produits %}
-				<div class="col-md-3 mt-4">
+			<img class="d-flex justify-content-center" src="{{asset('Images/AssortimentParfumsOdeurSentenceOlfactive.jpg')}}" class="d-block w-50" alt="...">
+			<div class="d-flex flex-column align-items-center justify-content-center gap-3">
+				<h2 class="title">«Sélectif» - Collection Privée PREparfumer®</h2>
+				<h3 class="title">CE N’EST PAS SEULEMENT UN PARFUM…</h3>
+				<h5 class="text">«Sélectif» est une collection innovante qui rassemble les tendances les plus populaires de la parfumerie de niche. Il ne s’agit pas seulement d’un concentré de parfum (Extrait de Parfum) à la tenue équilibrée. La formule unique des fragrances crée une ambiance particulière et aide le corps à libérer davantage de ses propres phéromones. Essayez la collection PREparfumer® « Sélectif » et donnez à votre image une touche finale avec des parfums en vogue et sophistiqués!</h5>
+			</div>
+		</div>
 
-					<div class="card" style="">
-						<img src="{{produit.image}}" class="card-img-top" alt="...">
-						<div class="card-body">
-							<a style="text-decoration: none" href="{{ path('app_home_produit_show', {'id': produit.id}) }}"><h5 class="card-title">{{ produit.Nom }}</h5></a>
-							<p class="card-text">{{ produit.Description|slice(0, 50) }} ...</p>
-							<h5>{{produit.Prix}}€</h5>
-							<a href="#" class="btn btn-outline-success m-1">Ajouter au panier</a>
-						</div>
-					</div>
-				</div>
-			{% endfor %}
-		</div><br><br><br>
-		<!-- Pagination -->
-		{{knp_pagination_render(produits, 'Includes/pagination.html.twig') }}
+
+		<div class="container" style="display: flex; align-items: center;">
+			<p style="flex: 1; padding-right: 20px; background-color: #000; color: #FFF; width: 50%; height: auto; display: flex; align-items: center; justify-content: center; padding: 10px;">
+				<h2>Parfum exclusif</h2>
+				        EXCLUSIVEMENT POUR VOUS DANS UN FLACON ARTISANAL UNIQUE AU MONDE.
+				        Le grand art de la parfumerie et l’artisanat du verre s’associent pour créer un chef-d’œuvre que vous seul pouvez posséder. Seul un artisan peut créer quelque chose qui marquera le monde de son empreinte. Le compositeur de parfums et le maître verrier rivalisent pour atteindre la perfection. Choisissez le meilleur et laissez-vous séduire par un parfum unique créé juste pour vous.
+			</p>
+			<video width="50%" height="auto" autoplay loop muted>
+				<source src="{{asset('/Images/PafumUniqueMondeFlagrance.mp4')}}" type="video/mp4">
+				Votre navigateur ne supporte pas la balise vidéo.
+			</video>
+		</div>
+
+
 	</div>
 
 {% endblock %}
+
+
+{# 
+							{% include('Includes/_flash_message.html.twig') %}
+					
+							<div class="row">
+					
+								{% for produit in produits %}
+									<div class="col-md-3 mt-4">
+					
+										<div class="card" style="">
+											<img src="{{produit.image}}" class="card-img-top" alt="...">
+											<div class="card-body">
+												<a style="text-decoration: none" href="{{ path('app_home_produit_show', {'id': produit.id}) }}"><h5 class="card-title">{{ produit.Nom }}</h5></a>
+												<p class="card-text">{{ produit.Description|slice(0, 50) }} ...</p>
+												<h5>{{produit.Prix}}€</h5>
+												<a href="{{ path('app_panier_new', {'id': produit.id}) }}" class="btn btn-outline-success m-1">Ajouter au panier</a>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div><br><br><br>
+							<!-- Pagination -->
+							{{knp_pagination_render(produits, 'Includes/pagination.html.twig') }} #}

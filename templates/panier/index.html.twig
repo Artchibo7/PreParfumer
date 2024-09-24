@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier Controller!
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="h1Twig">Panier</h1>
+
+		{% include('Includes/_flash_message.html.twig') %}
+
+		<table class="table table-bordered table-group-divider">
+			<tr>
+				<th>Nom</th>
+				<th>Prix</th>
+				<th>Qantité</th>
+				<th>Prix total</th>
+				<th>actions</th>
+			</tr>
+
+			{% for item in items %}
+
+				<tr>
+					<td>{{ item.produit.Nom }}</td>
+					<td>{{ item.produit.Prix }}</td>
+					<td>{{ item.quantite }}</td>
+					<td>{{ item.produit.Prix * item.quantite }}</td>
+					<td>
+						<a href="{{ path ('app_panier_supprimer', {'id': item.produit.id}) }}" class="btn btn-outline-danger">Supprimer</a>
+					</td>
+				</tr>
+
+			{% else %}
+
+				<tr>
+					<td colspan="4">Panier est vide</td>
+				</tr>
+
+			{% endfor %}
+		</table><br>
+
+		<h2>Total : {{ total }}€</h2>
+
+		<div class="row justify-content-center">
+
+			<a href="" class="btn btn-outline-success m-1 col-lg-3">Valider votre commande</a>
+
+			<a href="{{ path ('app_panier_vider') }}" class="btn btn-outline-danger m-1 col-lg-3">Vider votre panier</a>
+
+            <a href="{{ path ('app_home') }}" class="btn btn-outline-primary m-1 col-lg-3">Retour à la liste des produits</a>
+
+		</div><br><br><br>
+	</div>
+
+{% endblock %}

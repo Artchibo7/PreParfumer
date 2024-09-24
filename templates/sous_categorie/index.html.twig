@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SousCategorie index
+{% block title %}Sous-Categorie index
 {% endblock %}
 
 {% block body %}
 	<div class="container">
 
-		<h1 class="h1Twig">SousCategories</h1>
+		<h1 class="h1Twig">Sous-categories</h1>
 
 		{% include('Includes/_flash_message.html.twig') %}
 
@@ -38,6 +38,6 @@
 			</tbody>
 		</table>
 
-		<a href="{{ path('app_sous_categorie_new') }}" class="btn btn-warning m-1">Créer un nouvelle sous catégorie</a>
+		<a href="{{ path('app_sous_categorie_new') }}" class="btn btn-warning m-1">Créer un nouvelle sous-catégorie</a>
 	</div>
 {% endblock %}

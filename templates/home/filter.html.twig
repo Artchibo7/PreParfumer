@@ -19,7 +19,7 @@
 							<a style="text-decoration: none" href="{{ path('app_home_produit_show', {'id': produit.id}) }}"><h5 class="card-title">{{ produit.Nom }}</h5></a>
 							<p class="card-text">{{ produit.Description|slice(0, 50) }} ...</p>
 							<h5>{{produit.Prix}}€</h5>
-							<a href="#" class="btn btn-outline-success m-1">Ajouter au panier</a>
+							<a href="{{ path('app_panier_new', {'id': produit.id}) }}" class="btn btn-outline-success m-1">Ajouter au panier</a>
 						</div>
 					</div>
 				</div>
