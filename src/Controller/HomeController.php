@@ -30,30 +30,45 @@ class HomeController extends AbstractController
     }
 
     #[Route('/home/produit/{id}/show', name: 'app_home_produit_show', methods: ['GET'])]
-    public function show(Produit $produit, ProduitRepository $produitRepository, CategorieRepository $CategorieRepository): Response
+    public function show(Produit $produit, ProduitRepository $produitRepository, CategorieRepository $CategorieRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        
+        $data = $produitRepository->findBy([], ['id' => 'DESC']);
+        $produits = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            4
+        ); 
 
-        $dernierProduit = $produitRepository->findBy([], ['id' => 'DESC'], limit:6);
+        $dernierProduit = $produitRepository->findBy([], ['id' => 'DESC']);
         return $this->render('home/show.html.twig', [
             'produit' => $produit,
-            'produits' => $dernierProduit,
+            'produits' => $produits,
+            'dernierProduit' => $dernierProduit,
             'categories' => $CategorieRepository->findAll()
         ]);
     }
 
     #[Route('/home/produit/sousCategorie{id}/filter', name: 'app_home_produit_filter', methods: ['GET'])]
-    public function filter($id, SousCategorieRepository $sousCategorieRepository, CategorieRepository $CategorieRepository ): Response
+    public function filter($id, ProduitRepository $produitRepository, SousCategorieRepository $sousCategorieRepository, CategorieRepository $CategorieRepository, Request $request, PaginatorInterface $paginator): Response
     {
-
-    //    $produits = $sousCategorieRepository->findBy(['sousCategorie' => $id], ['id' => 'DESC']);
-       $produits = $sousCategorieRepository->find($id)->getProduits();
-       $SousCategorie = $sousCategorieRepository->find($id);
+        // Récupérer la sous-catégorie et ses produits
+        $SousCategorie = $sousCategorieRepository->find($id);
+        $produitsQuery = $SousCategorie->getProduits(); // Cela retourne une PersistentCollection
+    
+        // Paginer les produits de la sous-catégorie
+        $pagination = $paginator->paginate(
+            $produitsQuery, // Collection à paginer
+            $request->query->getInt('page', 1), // Numéro de page
+            4 // Limite par page
+        );
+    
+        // Rendre la vue avec les données paginées
         return $this->render('home/filter.html.twig', [
-            'produits' => $produits,
+            'produits' => $pagination, // Produits paginés
             'SousCategorie' => $SousCategorie,
-            'categories' => $CategorieRepository->findAll()
-
-
+            'categories' => $CategorieRepository->findAll(),
         ]);
     }
+    
 }
