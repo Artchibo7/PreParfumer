@@ -18,26 +18,26 @@ class ProduitType extends AbstractType {
             ->add('Description')
             ->add('Prix')
             ->add('stock')
-            ->add('Image'
-            // FileType::class,
-            //     [
-            //         'label' => 'Image du produit',
-            //         'multiple' => true,
-            //         'mapped' => false,
-            //         'required' => false,
-            //         'constraints' => [
-            //             new File([
-            //                 'maxSize' => '1024k',
-            //                 'mimeTypes' => [
-            //                     'image/jpg',
-            //                     'image/png',
-            //                     'image/jpeg',
-            //                 ],
-            //                 'maxSizeMessage' => 'Le fichier est trop volumineux, la taille doit être inférieure à 1024ko',
-            //                 'mimeTypesMessage' => 'Votre image doit être au format jpg, png ou jpeg',
-            //             ])
-            //         ]
-            //     ]
+            ->add('image',
+            FileType::class,
+                [
+                    'label' => 'image du produit',
+                    // 'multiple' => true,
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '1024k',
+                            'mimeTypes' => [
+                                'image/jpg',
+                                'image/png',
+                                'image/jpeg',
+                            ],
+                            'maxSizeMessage' => 'Le fichier est trop volumineux, la taille doit être inférieure à 1024ko',
+                            'mimeTypesMessage' => 'Votre image doit être au format jpg, png ou jpeg',
+                        ])
+                    ]
+                ]
             )
             ->add('SousCategories', EntityType::class, [
                 'class' => SousCategorie::class,

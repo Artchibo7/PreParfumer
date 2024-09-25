@@ -13,29 +13,60 @@ class PanierController extends AbstractController {
     public function __construct(private readonly ProduitRepository $produitRepository) {
     }
     #[Route('/panier', name: 'app_panier', methods: ['GET'])]
+
     // Pour stocker en session sans interoger la bdd on utilise SessionInterface
-    public function index(SessionInterface $session): Response {
-        $panier = $session->get('panier', []);
-        $panierWithData = [];
-        foreach ($panier as $idProduit => $quantite) {
-            $panierWithData[] = [
-                'produit' => $this->produitRepository->find($idProduit),
-                'quantite' => $quantite,
-            ];
+    // public function index(SessionInterface $session): Response {
+
+    //     $panier = $session->get('panier', []);
+    //     $panierWithData = [];
+
+    //     foreach ($panier as $idProduit => $quantite) {
+    //         $produit = $this->produitRepository->find($idProduit);
+
+    //         if ($produit) {
+    //             $panierWithData[] = [
+    //                 'produit' => $produit,
+    //                 'quantite' => $quantite,
+    //             ];
+    //         }
+    //         // une fois que array_map ait finit de traiter tous les produits, on peut calculer le total avec array_sum
+    //         $total = array_sum(array_map(function ($item) {
+    //             return $item['produit']->getPrix() * $item['quantite'];
+    //         }, $panierWithData));
+
+
+    //         return $this->render('panier/index.html.twig', [
+    //             'items' => $panierWithData,
+    //             'total' => $total
+    //         ]);
+    //     }
+    // }
+
+        public function index(SessionInterface $session): Response {
+            $panier = $session->get('panier', []);
+            $panierWithData = [];
+
+            foreach ($panier as $idProduit => $quantite) {
+                $produit = $this->produitRepository->find($idProduit);
+
+                if ($produit) {
+                    $panierWithData[] = [
+                        'produit' => $produit,
+                        'quantite' => $quantite,
+                    ];
+                } else {
+                }
+            }
+
+            $total = array_sum(array_map(function ($item) {
+                return $item['produit']->getPrix() * $item['quantite'];
+            }, $panierWithData));
+
+            return $this->render('panier/index.html.twig', [
+                'items' => $panierWithData,
+                'total' => $total
+            ]);
         }
-        // une fois que array_map ait finit de traiter tous les produits, on peut calculer le total avec array_sum
-        $total = array_sum(array_map(function ($item) {
-            return $item['produit']->getPrix() * $item['quantite'];
-        }, $panierWithData));
-
-        // dd($panierWithData);
-        // dd($total);
-
-        return $this->render('panier/index.html.twig', [
-            'items' => $panierWithData,
-            'total' => $total
-        ]);
-    }
 
     #[Route('/panier/ajout/{id}', name: 'app_panier_new', methods: ['GET'])]
 
@@ -86,13 +117,11 @@ class PanierController extends AbstractController {
         if (empty($panier)) {
 
             $this->addFlash('warning', 'Le panier est déjà vide');
-
         } else {
 
             $session->set('panier', []);
 
             $this->addFlash('danger', 'Le panier a bien été vidé');
-
         }
 
         return $this->redirectToRoute('app_panier', [], Response::HTTP_SEE_OTHER);
