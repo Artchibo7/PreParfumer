@@ -8,8 +8,8 @@
 		<div
 			class="login-form">
 			{# {% for flash_error in app.flashes('verify_email_error') %}
-							<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-						{% endfor %} #}
+										<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+									{% endfor %} #}
 
 			<h1>Inscription</h1>
 
@@ -25,7 +25,10 @@
 			<br>
 			{{ form_widget(registrationForm.plainPassword, {'attr': {'class':'form form-control', 'placeholder':'Mot de passe'}}) }}
 			<br>
-			{{ form_row(registrationForm.agreeTerms) }}
+			<div class="d-flex align-items-center">
+			<label for="agreeTerms" class="ms-2">Accepter les conditions</label>
+				{{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input', 'id': 'agreeTerms', 'style': 'margin-left: 10px;'}}) }}	
+			</div><br>
 
 			<button type="submit" class="btn btn-primary btn-block">S'inscrire</button>
 			{{ form_end(registrationForm) }}

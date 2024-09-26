@@ -4,28 +4,33 @@
 {% endblock %}
 
 {% block body %}
-	<div
-		class="container-fluid" style="padding: 0; margin: 0; height: 100vh; overflow: hidden; position: relative;">
-		<!-- Image de fond -->
-		<img
-		src="{{ asset('Images/AssortimentParfumsOdeurSentenceOlfactive.jpg') }}" alt="Image de fond" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: -1;">
-
-		<!-- Contenu du texte -->
-		<div class="d-flex flex-column align-items-center justify-content-center gap-3" style="height: 100%; z-index: 1; color: #FFF; text-align: center;">
-			<h1 class="h1Twig">Pre Parfumer</h1>
-			<h2 class="title">«Sélectif» - Collection Privée PREparfumer®</h2>
-			<h3 class="title">CE N’EST PAS SEULEMENT UN PARFUM…</h3>
-			<h5 class="text">«Sélectif» est une collection innovante qui rassemble les tendances les plus populaires de la parfumerie de niche. Il ne s’agit pas seulement d’un concentré de parfum (Extrait de Parfum) à la tenue équilibrée. La formule unique des fragrances crée une ambiance particulière et aide le corps à libérer davantage de ses propres phéromones. Essayez la collection PREparfumer® « Sélectif » et donnez à votre image une touche finale avec des parfums en vogue et sophistiqués!</h5>
-		</div>
+	<div class="video-content" style="flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+		<video style="width: 100%; height: auto; object-fit: cover;" autoplay loop muted>
+			<source src="{{ asset('/uploads/images/VideoPageAccueil.mp4') }}" type="video/mp4">
+			Votre navigateur ne supporte pas la balise vidéo.
+		</video>
 	</div>
 
+	<div class="d-flex flex-column align-items-center justify-content-center gap-3" style="height: 100%; z-index: 1; color: #FFF; text-align: center;">
+		<h1 class="h1Twig">Pre Parfumer</h1>
+		<h2 class="title">«Sélectif» - Collection Privée PREparfumer®</h2>
+		<h3 class="title">CE N’EST PAS SEULEMENT UN PARFUM…</h3>
+		<h5 class="text">«Sélectif» est une collection innovante qui rassemble les tendances les plus populaires de la parfumerie de niche. <br>Il ne s’agit pas seulement d’un concentré de parfum (Extrait de Parfum) à la tenue équilibrée. <br>La formule unique des fragrances crée une ambiance particulière et aide le corps à libérer davantage de ses propres phéromones. <br>Essayez la collection PREparfumer® « Sélectif » et donnez à votre image une touche finale avec des parfums en vogue et sophistiqués!</h5>
+	</div>
 
-	<div class="container" style="display: flex; flex-wrap: wrap; background-color: #000; color: #FFF;">
+	<div class="container-fluid" style="padding: 0; margin: 0; height: 100vh; overflow: hidden; position: relative;">
+		<img src="{{ asset('Images/AssortimentParfumsOdeurSentenceOlfactive.jpg') }}" alt="Image de fond" style="width: 100%; height: auto; object-fit: cover; position: absolute; top: 0; left: 0;">
+	</div><br><br><br><br><br>
+
+	<h1	class="h1Twig">Sélectif - Collection Privée exclusif</h1><br><br>
+
+
+	<div class="container" style="display: flex; flex-wrap: wrap; background-color: #000; color: #FFF; max-width: 100%; height: auto;">
 
 		<div class="text-content" style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
 			<h2>Parfum exclusif</h2>
 			<h4>EXCLUSIVEMENT POUR VOUS DANS UN FLACON ARTISANAL UNIQUE AU MONDE.</h4>
-			<p>
+			<p style="margin-bottom: 20px; text-align: center; font-size: 24px;">
 				Le grand art de la parfumerie et l’artisanat du verre s’associent pour créer un chef-d’œuvre que vous seul pouvez posséder. Seul un artisan peut créer quelque chose qui marquera le monde de son empreinte. Le compositeur de parfums et le maître verrier rivalisent pour atteindre la perfection. Choisissez le meilleur et laissez-vous séduire par un parfum unique créé juste pour vous.
 			</p>
 		</div>
@@ -36,7 +41,21 @@
 				<source src="{{asset('/Images/PafumUniqueMondeFlagrance.mp4')}}" type="video/mp4">
 				Votre navigateur ne supporte pas la balise vidéo.
 			</video>
-		</div>
-	</div><br><br><br></div>
-	
-	{% endblock %}
+		</div><br><br><br>
+	</div><br><br><br>
+
+
+	<div class="text-content" style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+		<h2 class="h1Twig">Sélectif Travel - Collection Privée
+			<br>
+			PREparfumer®</h2>
+		<p>
+			RENDEZ-VOUS À L'ÉTÉ 2024 POUR L’OUVERTURE DES VENTES.
+		</p>
+	</div>
+
+	<div class="container-fluid" style="padding: 0; margin: 0; height: 100vh; overflow: hidden; position: relative;">
+		<img src="{{ asset('/uploads/images/SelectionVoyage.jpg') }}" alt="Image de fond" style="width: 100%; height: auto; object-fit: cover; position: absolute; top: 0; left: 0;">
+	</div>
+	<br><br><br><br>
+{% endblock %}

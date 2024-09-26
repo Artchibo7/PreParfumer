@@ -1,23 +1,42 @@
-
 <footer>
 	<div class="footer-container">
 		<div class="footer-column logo">
 			<h2>MADE IN FRANCE</h2>
-			<img src="{{ asset('Images/WPreParfumerlogo.png') }}" alt="Logo" class="footer-logo">
+			<a href="/">
+				<img class="logo" src="{{ asset('/uploads/images/LogoFooterParfums.png') }}" alt="Logo du site PreParfumer">
+			</a>
 		</div>
 		<div class="footer-column products">
-			<h3>PRODUCTS</h3>
+			<h3>PRODUITS</h3>
 			<ul>
-				<li>Sélectif</li>
-				<li>Sélectif Travel</li>
-				<li>Côte d’Azur</li>
-				<li>Parfum exclusif</li>
+				<li>
+					<a class="nav-link active" aria-current="page" href="{{path('app_home')}}">Accueil</a>
+				</li><br>
+				<li>
+					<a class="nav-link" href="{{path('app_catalogue_index')}}">Catalogue</a>
+				</li><br>
+				{# <li>Sélectif Travel</li><br>
+				<li>Parfum exclusif</li><br> #}
 			</ul>
 		</div>
 		<div class="footer-column contact">
 			<h3>CONTACTS</h3>
-			<p>1050 Route de la mer,<br>Biot 06410, France</p>
-			<p>office@preparfumer.com</p>
+			<p style="margin-bottom: 20px;">
+				<a href="https://www.google.com/maps?q=1050+Route+de+la+mer,+Biot+06410,+France" target="_blank" style="text-decoration: none; color: inherit;">
+					1050 Route de la mer,<br>Biot 06410, France
+				</a>
+			</p>
+			<p style="margin-bottom: 20px;">
+				<a href="mailto:exemple@preparfumer.gom" style="text-decoration: none; color: inherit;">
+					exemple@preparfumer.gom
+				</a>
+			</p>
+			{# <p style="margin-bottom: 20px;">
+			        <a href="mailto:office@preparfumer.com" style="text-decoration: none; color: inherit;">
+			            office@preparfumer.com
+			        </a>
+			    </p> #}
 		</div>
+
 	</div>
 </footer>
