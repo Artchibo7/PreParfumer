@@ -1,71 +1,70 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-	<div class="container-fluid d-flex justify-content-between align-items-center">
-		
-		<!-- Liens à gauche -->
-		<div class="d-flex">
-			<ul class="navbar-nav me-auto">
-				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="{{path('app_home')}}">Accueil</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{path('app_catalogue_index')}}">Catalogue</a>
-				</li>
-				{% if categories is defined %}
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Filtres
-						</a>
-						<ul class="dropdown-menu">
-							{% for categorie in categories %}
-								<li><a class="dropdown-item text-success" style="font-weight: bold;" href="#">{{categorie.Nom}}</a></li>
-								{% for sousCategorie in categorie.sousCategories %}
-									<li><a class="dropdown-item" href="{{path('app_home_produit_filter', {'id': sousCategorie.id})}}">{{sousCategorie.Nom}}</a></li>
-								{% endfor %}
-								<li><hr class="dropdown-divider"></li>
-							{% endfor %}
-						</ul>
-					</li>
-				{% endif %}
-				{% if is_granted("ROLE_EDITOR") %}
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Menu Admin</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="{{path('app_utilisateur_index')}}">Utilisateurs</a></li>
-							<li><a class="dropdown-item" href="{{path('app_categorie_index')}}">Categories</a></li>
-							<li><a class="dropdown-item" href="{{path('app_sous_categorie_index')}}">Sous Categories</a></li>
-							<li><a class="dropdown-item" href="{{path('app_produit_index')}}">Produits</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">Something else here</a></li>
-						</ul>
-					</li>
-				{% endif %}
-			</ul>
-		</div>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        
 
-		<!-- Logo centré -->
-		<div class="d-flex justify-content-center">
-			<a class="" href="/">
-				<img class="logo" src="{{ asset('/uploads/images/WPreParfumerlogo.png') }}" alt="Logo du site PreParfumer" style="width: 120px; height: 120px;">
-			</a>
-		</div>
+        <div class="d-flex">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-gold" aria-current="page" href="{{path('app_home')}}">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-gold" href="{{path('app_catalogue_index')}}">Catalogue</a>
+                </li>
+                {% if categories is defined %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-gold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Filtres
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for categorie in categories %}
+                                <li><a class="dropdown-item text-success" style="font-weight: bold;" href="#">{{categorie.Nom}}</a></li>
+                                {% for sousCategorie in categorie.sousCategories %}
+                                    <li><a class="dropdown-item" href="{{path('app_home_produit_filter', {'id': sousCategorie.id})}}">{{sousCategorie.Nom}}</a></li>
+                                {% endfor %}
+                                <li><hr class="dropdown-divider"></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if is_granted("ROLE_EDITOR") %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-gold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Menu Admin</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item text-white" href="{{path('app_utilisateur_index')}}">Utilisateurs</a></li>
+                            <li><a class="dropdown-item text-white" href="{{path('app_categorie_index')}}">Catégories</a></li>
+                            <li><a class="dropdown-item text-white" href="{{path('app_sous_categorie_index')}}">Sous Catégories</a></li>
+                            <li><a class="dropdown-item text-white" href="{{path('app_produit_index')}}">Produits</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {# <li><a class="dropdown-item" href="#">Something else here</a></li> #}
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
 
-		<!-- Boutons à droite -->
-		<div class="d-flex">
-			<ul class="navbar-nav">
-				{% if app.user == false %}
-					<li class="nav-item">
-						<a href="{{path('app_register')}}" class="nav-link btn btn-light">S'inscrire</a>
-					</li>
-					<li class="nav-item">
-						<a href="{{path('app_login')}}" class="nav-link btn btn-light">Se connecter</a>
-					</li>
-				{% else %}
-					<li class="nav-item">
-						<a href="{{path('app_logout')}}" class="nav-link btn btn-light">Se déconnecter</a>
-					</li>
-				{% endif %}
-			</ul>
-		</div>
 
-	</div>
+        <div class="d-flex justify-content-center">
+            <a class="" href="/">
+                <img class="logo" src="{{ asset('/uploads/images/WPreParfumerlogo.png') }}" alt="Logo du site PreParfumer" style="width: 100px; height: 100px;">
+            </a>
+        </div>
+
+        <div class="d-flex">
+            <ul class="navbar-nav">
+                {% if app.user == false %}
+                    <li class="nav-item">
+                        <a href="{{path('app_register')}}" class="nav-link btn btn-light text-gold">S'inscrire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{path('app_login')}}" class="nav-link btn btn-light text-gold">Se connecter</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{{path('app_logout')}}" class="nav-link btn btn-light text-gold">Se déconnecter</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+
+    </div>
 </nav>

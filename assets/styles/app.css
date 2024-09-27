@@ -31,43 +31,51 @@ h1, h2, h3, h4, h5, h6 {
     height: 100Vh;
 }
 
+.text-gold {
+    color: gold; /* ou une couleur hexadécimale si vous préférez */
+}
+
+.text-white {
+    color: rgb(230, 14, 14);
+}
+
 footer {
-    background-color: #020202; /* Couleur de fond */
-    padding: 20px; /* Espacement */
-    text-align: center; /* Centrer le texte */
+    background-color: #020202;
+    padding: 20px;
+    text-align: center;
     color: #FFF;
 }
 
 .footer-container {
-    display: flex; /* Utiliser Flexbox pour la mise en page */
-    flex-wrap: wrap; /* Permettre le passage à la ligne */
-    justify-content: space-between; /* Espacement entre les colonnes */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .footer-column {
-    flex: 1; /* Chaque colonne prend une part égale */
-    min-width: 200px; /* Largeur minimale pour chaque colonne */
-    margin: 10px; /* Espacement entre les colonnes */
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
 }
 
 .footer-logo {
-    max-width: 100%; /* Limiter la largeur du logo */
-    height: auto; /* Garder les proportions du logo */
+    max-width: 100%;
+    height: auto;
 }
 
 ul {
-    list-style: none; /* Enlever les puces */
-    padding: 0; /* Enlever le remplissage */
+    list-style: none;
+    padding: 0;
 }
 
 p {
-    margin: 5px 0; /* Espacement autour des paragraphes */
+    margin: 5px 0;
 }
 
-/* Media Queries pour la réactivité */
+
 @media (max-width: 600px) {
     .footer-container {
-        flex-direction: column; /* Passer à une colonne sur petits écrans */
-        align-items: center; /* Centrer les colonnes */
+        flex-direction: column;
+        align-items: center; 
     }
 }

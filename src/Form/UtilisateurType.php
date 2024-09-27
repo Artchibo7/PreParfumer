@@ -6,19 +6,24 @@ use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-class UtilisateurType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('email')
-            ->add('roles')
-            ->add('password')
-            ->add('Nom')
-            ->add('Prenom')
-        ;
-    }
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+    class UtilisateurType extends AbstractType {
+        public function buildForm(FormBuilderInterface $builder, array $options): void {
+            $builder
+                ->add('Nom')
+                ->add('Prenom')
+                ->add('email')
+                ->add('roles', ChoiceType::class, [
+                    'choices' => [
+                        'Administrateur' => 'ROLE_ADMIN',
+                        'Éditeur' => 'ROLE_EDITOR',
+                        'Utilisateur' => 'ROLE_USER',
+                    ],
+                    'multiple' => true,
+                    'expanded' => true,
+                ])
+                ->add('password');
+        }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
