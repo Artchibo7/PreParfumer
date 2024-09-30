@@ -14,14 +14,15 @@
 			</h4>
 		</div>
 	</div><BR></BR><BR></BR>
-
+<div class="container">
 	<div class="container-fluid" style="padding: 0; margin: 0; height: 100vh; overflow: hidden; position: relative;">
 		<img src="{{ asset('/uploads/images/CollectionsParfumsSelectifExclusive.png') }}" alt="Image de fond" style="width: 100%; height: 50%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: -1;">
 	</div>
-	<div class="d-flex flex-column align-items-center justify-content-center gap-3" style="height: 100%; color: #000; text-align: center;">
+	<div class="d-flex flex-column align-items-center justify-content-center gap-3" style="height: 100%; color: #000; text-align: center; z-index: 1;">
 
 		<P class="text">Chaque parfum est composé de plus de 100 ingrédients triés sur le volet. L’un des points clés de la production de ce parfum est le choix de fragrances qui peuvent influencer l’humeur. Le défi pour le parfumeur est donc de sélectionner correctement ces fragrances et de les intégrer parfaitement dans la composition du parfum. La marque PREparfumer® utilise une technologie unique de production de parfums. Chaque parfum est affiné pendant au moins 3 mois, puis congelé et filtré deux fois avant d’être mis en bouteille. Comme un vin de grande valeur, le parfum continue de mûrir à l’intérieur des bouteilles afin de préserver le bouquet de senteurs et d’atteindre l’équilibre parfait entre les ingrédients. Le résultat est un parfum envoûtant qui non seulement accentue la personnalité de chacun, mais peut aussi inspirer et éveiller les sens. Notre collection comprend des parfums de niche très en vogue pour toutes les saisons, toutes les occasions et tous les goûts. Nous sommes certains que vous trouverez le parfum qui vous convient. Choisissez un parfum de notre collection « Sélectif » et profitez de ses senteurs uniques !</P>
 	</div>
+</div>
 
 	<div class="container">
 
@@ -43,7 +44,7 @@
 							<p class="card-text">{{ produit.Description|slice(0, 50) }}
 								...</p>
 							<h5>{{produit.Prix}}€</h5>
-							<a href="{{ path('app_panier_new', {'id': produit.id}) }}" class="btn btn-outline-success m-1">Ajouter au panier</a>
+							<a href="{{ path('app_panier_new', {'id': produit.id}) }}" class="btn btn-outline-warning m-1">Ajouter au panier</a>
 						</div>
 					</div>
 				</div>

@@ -32,11 +32,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .text-gold {
-    color: gold; /* ou une couleur hexadécimale si vous préférez */
-}
-
-.text-white {
-    color: rgb(230, 14, 14);
+    color: gold;
 }
 
 footer {

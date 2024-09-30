@@ -15,58 +15,35 @@ class PanierController extends AbstractController {
     #[Route('/panier', name: 'app_panier', methods: ['GET'])]
 
     // Pour stocker en session sans interoger la bdd on utilise SessionInterface
-    // public function index(SessionInterface $session): Response {
-
-    //     $panier = $session->get('panier', []);
-    //     $panierWithData = [];
-
-    //     foreach ($panier as $idProduit => $quantite) {
-    //         $produit = $this->produitRepository->find($idProduit);
-
-    //         if ($produit) {
-    //             $panierWithData[] = [
-    //                 'produit' => $produit,
-    //                 'quantite' => $quantite,
-    //             ];
-    //         }
-    //         // une fois que array_map ait finit de traiter tous les produits, on peut calculer le total avec array_sum
-    //         $total = array_sum(array_map(function ($item) {
-    //             return $item['produit']->getPrix() * $item['quantite'];
-    //         }, $panierWithData));
-
-
-    //         return $this->render('panier/index.html.twig', [
-    //             'items' => $panierWithData,
-    //             'total' => $total
-    //         ]);
-    //     }
-    // }
-
-        public function index(SessionInterface $session): Response {
-            $panier = $session->get('panier', []);
-            $panierWithData = [];
-
-            foreach ($panier as $idProduit => $quantite) {
-                $produit = $this->produitRepository->find($idProduit);
-
-                if ($produit) {
-                    $panierWithData[] = [
-                        'produit' => $produit,
-                        'quantite' => $quantite,
-                    ];
-                } else {
-                }
+    public function index(SessionInterface $session): Response {
+        $panier = $session->get('panier', []);
+        $panierWithData = [];
+    
+        foreach ($panier as $idProduit => $quantite) {
+            $produit = $this->produitRepository->find($idProduit);
+    
+            if ($produit) {
+                $panierWithData[] = [
+                    'produit' => $produit,
+                    'quantite' => $quantite,
+                ];
             }
-
-            $total = array_sum(array_map(function ($item) {
-                return $item['produit']->getPrix() * $item['quantite'];
-            }, $panierWithData));
-
-            return $this->render('panier/index.html.twig', [
-                'items' => $panierWithData,
-                'total' => $total
-            ]);
         }
+    
+        $total = array_sum(array_map(function ($item) {
+            return $item['produit']->getPrix() * $item['quantite'];
+        }, $panierWithData));
+    
+        // Calculer la quantité totale
+        $totalQuantity = $this->getTotalQuantity($session);
+    
+        return $this->render('panier/index.html.twig', [
+            'items' => $panierWithData,
+            'total' => $total,
+            'cartQuantity' => $totalQuantity, // Passer la quantité totale à la vue
+        ]);
+    }
+    
 
     #[Route('/panier/ajout/{id}', name: 'app_panier_new', methods: ['GET'])]
 
@@ -99,16 +76,6 @@ class PanierController extends AbstractController {
         return $this->redirectToRoute('app_panier', [], Response::HTTP_SEE_OTHER);
     }
 
-    // #[Route('/panier/vider', name: 'app_panier_vider', methods: ['GET'])]
-    // public function viderPanier(SessionInterface $session): Response {
-
-    //     $session->set('panier', []);
-
-    //     $this->addFlash('danger', 'Le panier a bien été vidé');
-
-    //     return $this->redirectToRoute('app_panier', [], Response::HTTP_SEE_OTHER);
-    // }
-
     #[Route('/panier/vider', name: 'app_panier_vider', methods: ['GET'])]
     public function viderPanier(SessionInterface $session): Response {
 
@@ -125,5 +92,12 @@ class PanierController extends AbstractController {
         }
 
         return $this->redirectToRoute('app_panier', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function getTotalQuantity(SessionInterface $session): int {
+        $panier = $session->get('panier', []);
+        $totalQuantity = array_sum($panier);
+
+        return $totalQuantity;
     }
 }
