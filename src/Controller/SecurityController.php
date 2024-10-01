@@ -12,6 +12,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // Uncomment this block if you want to redirect authenticated users
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
@@ -21,7 +22,13 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        // Custom error message
+        $errorMessage = $error ? 'Les identifiants sont incorrects. Veuillez réessayer.' : null;
+
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $errorMessage,  // Use the custom error message here
+        ]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]

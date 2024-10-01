@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[IsGranted("ROLE_EDITOR")]
 #[Route('/utilisateur')]
@@ -27,7 +28,7 @@ final class UtilisateurController extends AbstractController {
         $utilisateur->setRoles(['ROLE_EDITOR', 'ROLE_USER']);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Votre role a été ajouté.');
+        $this->addFlash('success', 'Votre rôle a été ajouté.');
 
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -37,18 +38,22 @@ final class UtilisateurController extends AbstractController {
         $utilisateur->setRoles(['']);
         $entityManager->flush();
 
-        $this->addFlash('danger', 'Votre role a été retiré.');
+        $this->addFlash('danger', 'Votre rôle a été retiré.');
 
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/new', name: 'app_utilisateur_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response {
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response {
         $utilisateur = new Utilisateur();
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Hachage du mot de passe avant de sauvegarder l'utilisateur
+            $hashedPassword = $passwordHasher->hashPassword($utilisateur, $utilisateur->getPassword());
+            $utilisateur->setPassword($hashedPassword);
+
             $entityManager->persist($utilisateur);
             $entityManager->flush();
 
@@ -71,11 +76,17 @@ final class UtilisateurController extends AbstractController {
     }
 
     #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response {
+    public function edit(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response {
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Si le mot de passe a été modifié, le hacher avant de sauvegarder
+            if ($utilisateur->getPassword()) {
+                $hashedPassword = $passwordHasher->hashPassword($utilisateur, $utilisateur->getPassword());
+                $utilisateur->setPassword($hashedPassword);
+            }
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre utilisateur a été modifié.');
