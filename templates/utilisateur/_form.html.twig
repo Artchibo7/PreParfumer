@@ -1,4 +1,20 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.Nom, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.Prenom, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+
+    <div class="mb-3">
+        <label>Rôles</label><br>
+        {% for role in form.roles %}
+            <div class="form-check form-check-inline">
+                {{ form_widget(role, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_label(role, null, {'attr': {'class': 'form-check-label'}}) }}
+            </div>
+        {% endfor %}
+    </div>
+        <label>Mot de passe</label><br>
+
+    {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
     <button class="btn btn-info m-1">{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}
+

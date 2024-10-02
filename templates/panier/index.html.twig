@@ -21,7 +21,10 @@
 			{% for item in items %}
 
 				<tr>
-					<td>{{ item.produit.Nom }}</td>
+					<td>
+						<a href="{{ path('app_home_produit_show', {'id': item.produit.id}) }}">{{ item.produit.Nom }}</a>
+					</td>
+					<td>{{ item.produit.Prix }}</td>
 					<td>{{ item.produit.Prix }}</td>
 					<td>{{ item.quantite }}</td>
 					<td>{{ item.produit.Prix * item.quantite }}</td>
@@ -39,7 +42,8 @@
 			{% endfor %}
 		</table><br>
 
-		<h2>Total : {{ total }}€</h2>
+		<h2>Total :
+			{{ total }}€</h2>
 
 		<div class="row justify-content-center">
 
@@ -47,7 +51,7 @@
 
 			<a href="{{ path ('app_panier_vider') }}" class="btn btn-outline-danger m-1 col-lg-3">Vider votre panier</a>
 
-            <a href="{{ path ('app_catalogue_index') }}" class="btn btn-outline-primary m-1 col-lg-3">Retour à la liste des produits</a>
+			<a href="{{ path ('app_catalogue_index') }}" class="btn btn-outline-primary m-1 col-lg-3">Retour à la liste des produits</a>
 
 		</div><br><br><br>
 	</div>

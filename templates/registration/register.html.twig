@@ -5,21 +5,16 @@
 
 {% block body %}
 	<div class="container securite-form">
-		<div
-			class="login-form">
-		 {% for message in app.flashes('success') %}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-            
-            {% for message in app.flashes('error') %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
+		<div class="login-form">
+			{% include('Includes/_flash_message.html.twig') %}
+			{# {% for label, messages in app.flashes %}
+			    <div class="alert alert-{{ label }}">
+			        {% for message in messages %}
+			            {{ message }}
+			        {% endfor %}
+			    </div>
+			{% endfor %} #}
+
 
 			<h1>Inscription</h1>
 
@@ -36,8 +31,8 @@
 			{{ form_widget(registrationForm.plainPassword, {'attr': {'class':'form form-control', 'placeholder':'Mot de passe'}}) }}
 			<br>
 			<div class="d-flex align-items-center">
-			<label for="agreeTerms" class="ms-2">Accepter les conditions</label>
-				{{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input', 'id': 'agreeTerms', 'style': 'margin-left: 10px;'}}) }}	
+				<label for="agreeTerms" class="ms-2">Accepter les conditions</label>
+				{{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input', 'id': 'agreeTerms', 'style': 'margin-left: 10px;'}}) }}
 			</div><br>
 
 			<button type="submit" class="btn btn-primary btn-block">S'inscrire</button>
