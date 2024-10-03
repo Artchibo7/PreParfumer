@@ -111,4 +111,38 @@ final class UtilisateurController extends AbstractController {
 
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    // #[IsGranted('ROLE_USER')]
+    // #[Route('/compte', name: 'app_compte_index', methods: ['GET', 'POST'])]
+    // public function compte(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, CommandeRepository $commandeRepository): Response
+    // {
+    //     /** @var Utilisateur $utilisateur */
+    //     $utilisateur = $this->getUser(); // Récupère l'utilisateur connecté
+        
+    //     $form = $this->createForm(UtilisateurType::class, $utilisateur);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         // Si le mot de passe a été modifié, le hacher
+    //         if ($utilisateur->getPassword()) {
+    //             $hashedPassword = $passwordHasher->hashPassword($utilisateur, $utilisateur->getPassword());
+    //             $utilisateur->setPassword($hashedPassword);
+    //         }
+
+    //         $entityManager->flush();
+
+    //         $this->addFlash('success', 'Vos informations ont été mises à jour.');
+
+    //         return $this->redirectToRoute('app_compte_index');
+    //     }
+
+    //     // Récupère les commandes de l'utilisateur
+    //     $commandes = $commandeRepository->findBy(['utilisateur' => $utilisateur]);
+
+    //     return $this->render('compte/index.html.twig', [
+    //         'form' => $form->createView(),
+    //         'commandes' => $commandes,
+    //     ]);
+    // }
 }

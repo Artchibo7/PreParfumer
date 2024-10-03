@@ -6,9 +6,7 @@
 {% block body %}
 	<div class="container"><br>
 		<h1 class="h1Twig">Produits</h1><br>
-
 		{% include('Includes/_flash_message.html.twig') %}
-
 		<table class="table">
 			<thead class="table-group-divider">
 				<tr>
@@ -49,7 +47,6 @@
 				</tbody>
 			</tbody>
 		</table>
-
 		<a href="{{ path('app_produit_new') }}" class="btn btn-warning m-1">Créer un nouveau produit</a>
 	</div>
 {% endblock %}

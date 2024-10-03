@@ -1,14 +1,10 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Panier Controller!
 {% endblock %}
-
 {% block body %}
 	<div class="container">
 		<h1 class="h1Twig">Panier</h1>
-
 		{% include('Includes/_flash_message.html.twig') %}
-
 		<table class="table table-bordered table-group-divider">
 			<tr>
 				<th>Nom</th>
@@ -17,9 +13,7 @@
 				<th>Prix total</th>
 				<th>actions</th>
 			</tr>
-
 			{% for item in items %}
-
 				<tr>
 					<td>
 						<a href="{{ path('app_home_produit_show', {'id': item.produit.id}) }}">{{ item.produit.Nom }}</a>
@@ -32,19 +26,15 @@
 						<a href="{{ path ('app_panier_supprimer', {'id': item.produit.id}) }}" class="btn btn-outline-danger">Supprimer</a>
 					</td>
 				</tr>
-
 			{% else %}
-
 				<tr>
 					<td colspan="4">Panier est vide</td>
 				</tr>
-
 			{% endfor %}
 		</table><br>
 
 		<h2>Total :
 			{{ total }}€</h2>
-
 		<div class="row justify-content-center">
 
 			<a href="" class="btn btn-outline-success m-1 col-lg-3">Valider votre commande</a>

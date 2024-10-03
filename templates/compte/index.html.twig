@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+    <h1 class="h1Twig">Mon compte</h1>
+    <p>Bienvenue sur votre compte, {{ utilisateur.nom }}!</p>
+
+    <a href="{{ path('app_produit_new') }}">Ajouter un produit</a>
+
+    <h2>Modifier mes informations</h2>
+    {{ form_start(form) }}
+        {{ form_row(form.Nom) }}
+        {{ form_row(form.Prenom) }}
+        {{ form_row(form.Email) }}
+        {{ form_row(form.password) }}
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    {{ form_end(form) }}
+
+{% endblock %}
