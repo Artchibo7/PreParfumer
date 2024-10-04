@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Utilisateur index{% endblock %}
+{% block title %}Utilisateurs{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -8,57 +8,60 @@
 
         {% include('Includes/_flash_message.html.twig') %}
 
-        <table class="table">
-            <thead class="table-group-divider">
-                <tr>
-                    <th>id</th>
-                    <th>Nom</th>
-                    <th>Prenom</th>
-                    <th>Email</th>
-                    <th>Rôles</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider">
-                {% for utilisateur in utilisateurs %}
+        <!-- Responsive table -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-group-divider">
+                <thead>
                     <tr>
-                        <td>{{ utilisateur.id }}</td>
-                        <td>{{ utilisateur.Nom }}</td>
-                        <td>{{ utilisateur.Prenom }}</td>
-                        <td>{{ utilisateur.email }}</td>
-                        <td>
-                            {% for role in utilisateur.roles %}
-                                {% if role == 'ROLE_ADMIN' %}
-                                    <span class="text-primary">Administrateur</span>
-                                {% elseif role == 'ROLE_EDITOR' %}
-                                    <span class="text-success">Éditeur</span>
-                                {% elseif role == 'ROLE_USER' %}
-                                    <span class="text-info">Utilisateur</span>
-                                {% else %}
-                                    <span>{{ role }}</span>
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% if 'ROLE_ADMIN' not in utilisateur.roles %}
-                                {% if 'ROLE_EDITOR' not in utilisateur.roles %}
-                                    <a onclick="return confirm('Vous voulez l\'ajouter comme éditeur?');" href="{{ path('app_utilisateur_to_editor', {'id': utilisateur.id}) }}" class="btn btn-warning m-1">Ajouter comme éditeur</a>
-                                {% else %}
-                                    <a onclick="return confirm('Vous voulez supprimer cet éditeur?');" href="{{ path('app_utilisateur_remove_editor/role', {'id': utilisateur.id}) }}" class="btn btn-danger m-1">Supprimer l'éditeur</a>
-                                {% endif %}
-                                <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}" class="btn btn-primary m-1">Voir</a>
-                                <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-success m-1">Éditer</a>
-                            {% endif %}
-                        </td>
+                        <th>id</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Email</th>
+                        <th>Rôles</th>
+                        <th>Actions</th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="7">Aucun enregistrement trouvé</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for utilisateur in utilisateurs %}
+                        <tr>
+                            <td>{{ utilisateur.id }}</td>
+                            <td>{{ utilisateur.Nom }}</td>
+                            <td>{{ utilisateur.Prenom }}</td>
+                            <td>{{ utilisateur.email }}</td>
+                            <td>
+                                {% for role in utilisateur.roles %}
+                                    {% if role == 'ROLE_ADMIN' %}
+                                        <span class="text-primary">Administrateur</span>
+                                    {% elseif role == 'ROLE_EDITOR' %}
+                                        <span class="text-success">Éditeur</span>
+                                    {% elseif role == 'ROLE_USER' %}
+                                        <span class="text-info">Utilisateur</span>
+                                    {% else %}
+                                        <span>{{ role }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% if 'ROLE_ADMIN' not in utilisateur.roles %}
+                                    {% if 'ROLE_EDITOR' not in utilisateur.roles %}
+                                        <a onclick="return confirm('Vous voulez l\'ajouter comme éditeur?');" href="{{ path('app_utilisateur_to_editor', {'id': utilisateur.id}) }}" class="btn btn-warning btn-sm w-100 m-1">Ajouter comme éditeur</a>
+                                    {% else %}
+                                        <a onclick="return confirm('Vous voulez supprimer cet éditeur?');" href="{{ path('app_utilisateur_remove_editor/role', {'id': utilisateur.id}) }}" class="btn btn-danger btn-sm w-100 m-1">Supprimer l'éditeur</a>
+                                    {% endif %}
+                                    <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}" class="btn btn-primary btn-sm w-100 m-1">Voir</a>
+                                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-success btn-sm w-100 m-1">Éditer</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">Aucun enregistrement trouvé</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-        <a href="{{ path('app_utilisateur_new') }}" class="btn btn-warning m-1">Créer un nouveau utilisateur</a>
+        <a href="{{ path('app_utilisateur_new') }}" class="btn btn-warning w-100 mt-3">Créer un nouvel utilisateur</a>
     </div>
 {% endblock %}
