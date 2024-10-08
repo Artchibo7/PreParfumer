@@ -6,6 +6,7 @@ use App\Repository\VilleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
 class Ville
@@ -16,9 +17,20 @@ class Ville
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom de la ville ne peut pas être vide.')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom de la ville ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-ZÀ-ÿ\s'-]+$/u",
+        message: 'Le nom de la ville ne doit contenir que des lettres.'
+    )]
     private ?string $nom = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Les frais de port ne peuvent pas être vides.')]
+    #[Assert\Positive(message: 'Les frais de port doivent être un nombre positif.')]
     private ?float $fraisDePort = null;
 
     /**
@@ -44,7 +56,7 @@ class Ville
 
     public function setNom(string $nom): static
     {
-        $this->nom = $nom;
+        $this->nom = htmlspecialchars($nom, ENT_QUOTES, 'UTF-8'); // Sanitization
 
         return $this;
     }

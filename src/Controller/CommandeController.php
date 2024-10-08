@@ -6,9 +6,11 @@ use App\Entity\Commande;
 use App\Entity\CommandeProduit;
 use App\Entity\Ville;
 use App\Form\CommandeType;
+use App\Repository\CommandeRepository;
 use App\Repository\ProduitRepository;
 use App\Service\Panier;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,8 +51,6 @@ class CommandeController extends AbstractController {
 
                 $session->set('panier', []);
 
-                // $this->addFlash('danger', 'Le panier a bien été vidé');
-    
             return $this->redirectToRoute('app_commande_message', [], Response::HTTP_SEE_OTHER);
             }
         }
@@ -61,6 +61,53 @@ class CommandeController extends AbstractController {
         ]);
     }
 
+    #[Route('/admin/commande', name: 'app_commandes_show')]
+
+    public function getAllCommande(CommandeRepository $commandeRepository, Request $request, PaginatorInterface $paginator): Response {
+
+        $data = $commandeRepository->findBy([], ['id' => 'DESC']);
+
+        // dd($commande);
+        $commande = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            2
+        ); 
+
+
+        return $this->render('commande/commande.html.twig', [
+            'commandes' => $commande
+        ]);
+
+
+    }
+
+    #[Route('/admin/commande/{id}/is-completed/update', name: 'app_commandes_is_completed_update')]
+
+    public function isCompletedUpdate($id, CommandeRepository $commandeRepository, EntityManagerInterface $entityManager): Response {
+        $commande = $commandeRepository->find($id);
+        $commande->setCompleted(true);
+
+        // Sauvegarder les modifications en base de données
+        $entityManager->persist($commande);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La commande a été marquée comme terminée.');
+        return $this->redirectToRoute('app_commandes_show');
+    }  
+
+    #[Route('/admin/commande/{id}/remove', name: 'app_commandes_remove')]
+    public function removeCommande(Commande $commande, EntityManagerInterface $entityManager): Response {
+        $entityManager->remove($commande);
+        $entityManager->flush();
+
+        $this->addFlash('danger', 'La commande a été supprimée.');
+        return $this->redirectToRoute('app_commandes_show');
+    }
+
+
+
+
     #[Route('/commande/message', name: 'app_commande_message')]
     public function commandeMessageAction(SessionInterface $session): Response 
     {
@@ -70,9 +117,11 @@ class CommandeController extends AbstractController {
         // Vérifier si le panier est vide
         if (empty($panier)) {
             $this->addFlash('warning', 'Votre panier est vide. Vous ne pouvez pas passer de commande sans produits.');
-            return $this->redirectToRoute('app_panier'); // Rediriger vers la page du panier
+
+            // Rediriger vers la page du panier
+            return $this->redirectToRoute('app_panier');
         }
-    
+
         // Sinon, afficher le message de confirmation de commande
         $this->addFlash('success', 'Votre commande a été enregistrée. Vous recevrez un email de confirmation dans les plus brefs délais.');
     

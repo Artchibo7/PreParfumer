@@ -75,3 +75,11 @@ p {
         align-items: center; 
     }
 }
+
+hr {
+    width: 90%;
+    height: 6px;
+    background-color: #f00d0d;
+    border: none;
+    margin: 20px auto;
+}

@@ -56,13 +56,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le mot de passe ne peut pas être vide.')]
-    #[Assert\Length(
-        min: 8,
-        max: 255,
-        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
-        maxMessage: 'Le mot de passe ne doit pas dépasser {{ limit }} caractères.'
-    )]
+    #[Assert\Length(min: 8, max: 4096, minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.', maxMessage: 'Le mot de passe ne doit pas dépasser {{ limit }} caractères.')]
     #[Assert\Regex(
         pattern: '/^[^\s<>&]+$/',
         message: 'Le mot de passe ne peut pas contenir de caractères spéciaux comme <, >, &, ou espaces.'

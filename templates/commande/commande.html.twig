@@ -1,43 +1,108 @@
 {% extends 'base.html.twig' %}
-{% block title %}Commandes{% endblock %}
+{% block title %}Commandes
+{% endblock %}
 {% block body %}
-    <div class="container">
-        <h1 class="h1Twig">Commandes</h1>
-    {% include('includes/_flash_message.html.twig') %}
-    
-        <table class="table">
-            <thead class="table-group-divider">
-                <tr>
-                    <th>ID</th>
-                    <th>Utilisateur</th>
-                    <th>Date</th>
-                    <th>Total</th>
-                    <th>Etat</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for commande in commandes %}
-                <tr>
-                    <td>{{ commande.id }}</td>
-                    <td>{{ commande.utilisateur }}</td>
-                    <td>{{ commande.date|date('d/m/Y') }}</td>
-                    <td>{{ commande.total }}€</td>
-                    <td>{{ commande.etat }}</td>
-                    <td>
-                        <a href="{{ path('app_commande_show', {'id': commande.id}) }}" class="btn btn-outline-info btn-sm">Voir</a>
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('app_commande_edit', {'id': commande.id}) }}" class="btn btn-outline-success btn-sm">Éditer</a>
-                        <a href="{{ path('app_commande_delete', {'id': commande.id}) }}" class="btn btn-outline-danger btn-sm">Supprimer</a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        
-        <div class="d-flex justify-content-center">
-            {{ knp_pagination_render(commandes) }}
-        </div>
-    </div>
+	<div class="container">
+
+		<h1 class="h1Twig">Commandes</h1>
+
+		{% include('includes/_flash_message.html.twig') %}
+
+		{% for commande in commandes %}
+
+			<h6>Commande n°
+				{{ commande.id }}</h6>
+
+			{% if commande.isCompleted == true %}
+
+				<h4 class="text-success">Commande livrée :
+					{{commande.createdAt | date('d/m/Y')}}</h4>
+
+			{% else %}
+
+				<h4 class="text-danger">Commande non livrée :
+					{{commande.createdAt | date('d/m/Y')}}</h4>
+
+			{% endif %}
+
+			<span>Informations du client</span>
+
+			<table class="table table-bordered">
+
+				<tr>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Téléphone</th>
+					<th>Adresse</th>
+					<th>Ville</th>
+				</tr>
+
+				<tr>
+					<td>{{ commande.nom }}</td>
+					<td>{{ commande.prenom }}</td>
+					<td>{{ commande.telephone }}</td>
+					<td>{{ commande.adresse }}</td>
+					<td>{{ commande.ville.nom }}</td>
+				</tr>
+			</table>
+
+
+			<span>Recapitulatif de la commande</span>
+
+			<table class="table table-bordered">
+				<tr>
+					<th>Image du produit</th>
+					<th>Nom du produit</th>
+					<th>DEscription du produit</th>
+					<th>Prix unitaire</th>
+					<th>Quantité</th>
+					<th>Prix total</th>
+				</tr>
+
+				{% for produit in commande.commandeProduits %}
+					<tr>
+						<td><img src="{{ asset('uploads/images/' ~ produit.produit.image) }}" width="100"></td>
+						<td>{{ produit.produit.nom }}</td>
+						<td>{{ produit.produit.description|slice(0,100) }}</td>
+						<td>{{ produit.produit.prix }}€</td>
+						<td>{{ produit.quantite }}</td>
+						<td>{{ produit.produit.prix * produit.quantite }}€</td>
+					</tr>
+				{% endfor %}
+
+			</table>
+
+			<table class="table table-bordered">
+				<th>
+					<h6>Total de la commande :
+						{{ commande.prixTotal }}
+						€</h6>
+				</th>
+				<th>
+					<h6>Frais de livraison :
+						{{ commande.ville.fraisDePort }}
+						€</h6>
+				</th>
+				<th>
+					<h6>Total à payer :
+						{{ commande.prixTotal + commande.ville.fraisDePort }}
+						€</h6>
+				</th>
+			</table>
+
+			{% if commande.isCompleted != true %}
+				<a href="{{path ('app_commandes_is_completed_update', {'id': commande.id}) }}" class="btn btn-outline-success m-1">Marquer commande payée et livrer</a>
+			{% endif %}
+
+			<a onclick="return confirm('Vous voulez supprimer cette commande?');" href="{{path ('app_commandes_remove', {'id': commande.id}) }}" class="btn btn-danger m-1">Supprimer la commande</a>
+			<hr>
+
+		{% endfor %}
+
+		{{knp_pagination_render(commandes, 'Includes/pagination.html.twig') }}
+
+
+	</div>
+
+
 {% endblock %}

@@ -1,77 +1,126 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CommandeController!
-{% endblock %}
+{% block title %}Hello CommandeController!{% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="column">
-			<div class="col-8">
-				<h1 class="h1Twig">Commandes</h1>
-				{{ form_start(form) }}
-				{{ form_widget(form) }}
-				<input class="btn btn-success m-1" value="Continuer" type="submit">
-			{{ form_end(form) }}
-		</div>
+    <div class="container">
+        <div class="column">
+            <div class="col-8">
+                <h1 class="h1Twig">Commandes</h1>
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <input class="btn btn-success m-1" value="Continuer" type="submit">
+                {{ form_end(form) }}
+            </div>
 
-		<div class="col-6 d-flex justify-content-center gap-5">
-			<span class="spanTwig">Montant de la commande</span>
+            <!-- Card display for mobile screens -->
+            <div class="col-6 d-flex justify-content-center gap-3 d-block d-md-none">
+                <div class="card d-flex justify-content-center ">
+                    <div class="card-body">
+                        <h5 class="card-title h1Twig">Montant de la commande</h5>
+                        <h4 class="text-center my-0" id="prix-panierMobile">{{ Total }}€</h4>
+
+                        <h5 class="card-title h1Twig">Frais de livraison</h5>
+                        <h4 class="text-center my-0" ><span id="livraisonMobile"></span>€</h4>
+
+                        <h5 class="card-title h1Twig">Total à payer</h5>
+                        <h4 class="text-center my-0"><span id="prix-totalMobile"></span>€</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- pour tablette et desktop -->
+            <div class="col-6 d-flex justify-content-center gap-4 d-none d-md-flex">
+                <span class="spanTwig">Montant de la commande</span>
                 <h4>
                     <span id="prix-panier">{{ Total }}</span>€
                 </h4>
 
-            <span class="spanTwig">Frais de livraison</span>
+                <span class="spanTwig">Frais de livraison</span>
                 <h4>
                     <span id="livraison"></span>€                   
                 </h4>
 
-            <span class="spanTwig">Total à payer</span>
+                <span class="spanTwig">Total à payer</span>
                 <h4>
-                    <span id="prix-total"></span>€
+                    <span id="prix-total"></span>€ 
                 </h4>			
-		</div>
-	</div>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<script>
-        $(document).ready(function() {
-           const VilleSelector = $('#commande_ville');
-           const villeValeur = VilleSelector.val();
-           
-           const url = `https://localhost:8000/ville/${villeValeur}/livraison/prix`;
+            </div>
+        </div>
+    </div>
 
-           function ajaxRequest(url) {
-               $.ajax({
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            const VilleSelector = $('#commande_ville');
+            const villeValeur = VilleSelector.val();
+            
+            const url = `https://localhost:8000/ville/${villeValeur}/livraison/prix`;
+
+            function ajaxRequest(url) {
+                $.ajax({
                     url: url,
                     type: 'GET',
                     success: function(response) {
+                        const newReponse = JSON.parse(response)
 
-                    const newReponse = JSON.parse(response)
+                        if (parseInt(newReponse.status) === 200) {
+                            $('#livraison').text(newReponse.content);
 
-                    if (parseInt(newReponse.status) === 200) {
+                            const prixPanier = parseInt($("#prix-panier").text());
+                            const prixLivraison = parseInt($("#livraison").text());
+                            const prixTotal = prixPanier + prixLivraison;
+                            $("#prix-total").text(prixTotal);
+                        }
+                    },
+                    error: function(xhr, status, error) {
 
-                    $('#livraison').text(newReponse.content);
-
-                    const prixPanier = parseInt($("#prix-panier").text());
-                    const prixLivraison = parseInt($("#livraison").text());
-                    const prixTotal = prixPanier + prixLivraison;
-                    $("#prix-total").text(prixTotal);
                     }
-               },
-               error: function(xhr, status, error) {
-               }
+                });
+            }
 
-           });
-           }
+            ajaxRequest(url);
 
-           ajaxRequest(url);
+            VilleSelector.on('change', (function() {
+                const urlUpdate = `https://localhost:8000/ville/${$(this).val()}/livraison/prix`;
+                ajaxRequest(urlUpdate);
+            }));
+        });
 
-           VilleSelector.on('change', (function() {
+        $(document).ready(function() {
+            const VilleSelector = $('#commande_ville');
+            const villeValeur = VilleSelector.val();
+            
+            const url = `https://localhost:8000/ville/${villeValeur}/livraison/prix`;
 
-            const urlUpdate = `https://localhost:8000/ville/${$(this).val()}/livraison/prix`;
+            function ajaxRequest(url) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                        const newReponse = JSON.parse(response)
 
-            ajaxRequest(urlUpdate);
+                        if (parseInt(newReponse.status) === 200) {
+                            $('#livraisonMobile').text(newReponse.content);
 
-           }))
+                             const prixPanier = parseInt($("#prix-panierMobile").text());
+                            const prixLivraison = parseInt($("#livraisonMobile").text());
+                            const prixTotal = prixPanier + prixLivraison;
+                            $("#prix-totalMobile").text(prixTotal);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                    
+                    }
+                });
+            }
+
+            ajaxRequest(url);
+
+            VilleSelector.on('change', (function() {
+                const urlUpdate = `https://localhost:8000/ville/${$(this).val()}/livraison/prix`;
+                ajaxRequest(urlUpdate);
+            }));
         });
     </script>
-</div>{% endblock %}
+{% endblock %}

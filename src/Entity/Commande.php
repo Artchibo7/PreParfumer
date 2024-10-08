@@ -45,6 +45,9 @@ class Commande
     #[ORM\Column]
     private ?float $prixTotal = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isCompleted = null;
+
     public function __construct()
     {
         $this->commandeProduits = new ArrayCollection();
@@ -177,6 +180,18 @@ class Commande
     public function setPrixTotal(float $prixTotal): static
     {
         $this->prixTotal = $prixTotal;
+
+        return $this;
+    }
+
+    public function isCompleted(): ?bool
+    {
+        return $this->isCompleted;
+    }
+
+    public function setCompleted(?bool $isCompleted): static
+    {
+        $this->isCompleted = $isCompleted;
 
         return $this;
     }

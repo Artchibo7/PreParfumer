@@ -6,6 +6,7 @@ use App\Repository\SousCategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SousCategorieRepository::class)]
 class SousCategorie
@@ -16,6 +17,8 @@ class SousCategorie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $Nom = null;
 
     #[ORM\ManyToOne(inversedBy: 'sousCategories')]
@@ -33,8 +36,6 @@ class SousCategorie
         $this->produits = new ArrayCollection();
     }
 
-  
-
     public function getId(): ?int
     {
         return $this->id;
@@ -47,7 +48,7 @@ class SousCategorie
 
     public function setNom(string $Nom): static
     {
-        $this->Nom = $Nom;
+        $this->Nom = trim($Nom); // Sanitize input
 
         return $this;
     }
@@ -91,3 +92,4 @@ class SousCategorie
         return $this;
     }
 }
+
