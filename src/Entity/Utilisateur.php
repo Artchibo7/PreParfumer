@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -18,13 +19,31 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    // Validation avec Regex pour le nom
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom ne doit pas dépasser {{ limit }} caractères.')]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z\s-]+$/',
+        message: 'Le nom ne doit contenir que des lettres, des espaces ou des tirets.'
+    )]
     private ?string $Nom = null;
 
+    // Validation avec Regex pour le prénom
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le prénom ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le prénom ne doit pas dépasser {{ limit }} caractères.')]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z\s-]+$/',
+        message: 'Le prénom ne doit contenir que des lettres, des espaces ou des tirets.'
+    )]
     private ?string $Prenom = null;
 
+    // Validation de l'email
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: 'L\'email ne peut pas être vide.')]
+    #[Assert\Length(max: 180, maxMessage: 'L\'email ne doit pas dépasser {{ limit }} caractères.')]
+    #[Assert\Email(message: 'L\'email "{{ value }}" n\'est pas un email valide.')]
     private ?string $email = null;
 
     /**
@@ -37,9 +56,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le mot de passe ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 8,
+        max: 255,
+        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le mot de passe ne doit pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\s<>&]+$/',
+        message: 'Le mot de passe ne peut pas contenir de caractères spéciaux comme <, >, &, ou espaces.'
+    )]
     private ?string $password = null;
-
-   
 
     public function getId(): ?int
     {
@@ -139,6 +167,4 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
-   
 }

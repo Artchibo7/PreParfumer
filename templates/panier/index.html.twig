@@ -3,6 +3,7 @@
 {% block body %}
 	<div class="container">
 		<h1 class="h1Twig">Panier</h1>
+
 		{% include('Includes/_flash_message.html.twig') %}
 
 		
@@ -27,7 +28,7 @@
 							<td>{{ item.quantite }}</td>
 							<td>{{ item.produit.Prix * item.quantite }}€</td>
 							<td>
-								<a href="{{ path ('app_panier_supprimer', {'id': item.produit.id}) }}" class="btn btn-outline-danger btn-sm">Supprimer</a>
+								<a onclick="return confirm('Etes-vous sur de vouloir supprimer ce produit ?')" href="{{ path ('app_panier_supprimer', {'id': item.produit.id}) }}" class="btn btn-outline-danger btn-sm">Supprimer</a>
 							</td>
 						</tr>
 					{% else %}
@@ -42,7 +43,7 @@
 		<h2>Total : {{ total }}€</h2>
 
 		<div class="row justify-content-center">
-			<a href="" class="btn btn-outline-success m-1 col-lg-3 col-md-4 col-sm-12 w-100">Valider votre commande</a>
+			<a data-turbo='false' href="{{ path ('app_commande') }}" class="btn btn-outline-success m-1 col-lg-3 col-md-4 col-sm-12 w-100">Valider votre commande</a>
 			<a href="{{ path ('app_panier_vider') }}" class="btn btn-outline-danger m-1 col-lg-3 col-md-4 col-sm-12 w-100">Vider votre panier</a>
 			<a href="{{ path ('app_catalogue_index') }}" class="btn btn-outline-primary m-1 col-lg-3 col-md-4 col-sm-12 w-100">Retour à la liste des produits</a>
 		</div><br><br><br>

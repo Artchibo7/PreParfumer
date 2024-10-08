@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ProduitRepository;
+use App\Service\Panier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -15,32 +16,14 @@ class PanierController extends AbstractController {
     #[Route('/panier', name: 'app_panier', methods: ['GET'])]
 
     // Pour stocker en session sans interoger la bdd on utilise SessionInterface
-    public function index(SessionInterface $session): Response {
-        $panier = $session->get('panier', []);
-        $panierWithData = [];
-    
-        foreach ($panier as $idProduit => $quantite) {
-            $produit = $this->produitRepository->find($idProduit);
-    
-            if ($produit) {
-                $panierWithData[] = [
-                    'produit' => $produit,
-                    'quantite' => $quantite,
-                ];
-            }
-        }
-    
-        $total = array_sum(array_map(function ($item) {
-            return $item['produit']->getPrix() * $item['quantite'];
-        }, $panierWithData));
-    
-        // Calculer la quantité totale
-        $totalQuantity = $this->getTotalQuantity($session);
+    public function index(SessionInterface $session, Panier $panier, ProduitRepository $produitRepository): Response {
+       
+        $data = $panier->getPanier($session, $produitRepository);
     
         return $this->render('panier/index.html.twig', [
-            'items' => $panierWithData,
-            'total' => $total,
-            'cartQuantity' => $totalQuantity, // Passer la quantité totale à la vue
+            'items' => $data['panier'],
+            'total' => $data['total'],
+            // 'quantite' => $data['quantite'], // Passer la quantité totale à la vue
         ]);
     }
     

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Commandes{% endblock %}
+{% block body %}
+    <div class="container">
+        <h1 class="h1Twig">Commandes</h1>
+    {% include('includes/_flash_message.html.twig') %}
+    
+        <table class="table">
+            <thead class="table-group-divider">
+                <tr>
+                    <th>ID</th>
+                    <th>Utilisateur</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Etat</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for commande in commandes %}
+                <tr>
+                    <td>{{ commande.id }}</td>
+                    <td>{{ commande.utilisateur }}</td>
+                    <td>{{ commande.date|date('d/m/Y') }}</td>
+                    <td>{{ commande.total }}€</td>
+                    <td>{{ commande.etat }}</td>
+                    <td>
+                        <a href="{{ path('app_commande_show', {'id': commande.id}) }}" class="btn btn-outline-info btn-sm">Voir</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_commande_edit', {'id': commande.id}) }}" class="btn btn-outline-success btn-sm">Éditer</a>
+                        <a href="{{ path('app_commande_delete', {'id': commande.id}) }}" class="btn btn-outline-danger btn-sm">Supprimer</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="d-flex justify-content-center">
+            {{ knp_pagination_render(commandes) }}
+        </div>
+    </div>
+{% endblock %}

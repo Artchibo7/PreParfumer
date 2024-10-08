@@ -7,9 +7,9 @@
 
 	<div class="container"><br><br><br>
 		<div class="row">
-			<h2 class="title">«Sélectif» — Collection Privée PREparfumer®</h2><br>
-			<h3 class="title">CE N’EST PAS UN SIMPLE PARFUM…</h3><br>
-			<h4 class="text">
+			<h2 class="title h1Twig">«Sélectif» — Collection Privée PREparfumer®</h2><br>
+			<h3 class="title h1Twig">CE N’EST PAS UN SIMPLE PARFUM…</h3><br>
+			<h4 class="text h1Twig">
 				La collection de parfums « Sélectif » est un chef-d’oeuvre de l’art en parfumerie. Le couvercle et la pompe du flacon de parfum sont peints avec de l’or 24 carats pour protéger le revêtement.
 			</h4>
 		</div>
@@ -39,11 +39,11 @@
 
 						<div class="card-body">
 							<a style="text-decoration: none" href="{{ path('app_home_produit_show', {'id': produit.id}) }}">
-								<h5 class="card-title">{{ produit.Nom }}</h5>
+								<h5 class="card-title h1Twig">{{ produit.Nom }}</h5>
 							</a>
 							<p class="card-text">{{ produit.Description|slice(0, 50) }}
 								...</p>
-							<h5>{{produit.Prix}}€</h5>
+							<h5 class="h1Twig">{{produit.Prix}}€</h5>
 							<a href="{{ path('app_panier_new', {'id': produit.id}) }}" class="btn btn-outline-warning m-1">Ajouter au panier</a>
 						</div>
 					</div>
