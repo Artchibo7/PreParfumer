@@ -90,6 +90,8 @@
 				</th>
 			</table>
 
+            <a href="{{path ('app_facture', {'id': commande.id}) }}" class="btn btn-outline-primary m-1" target="_blank">Facture</a>
+
 			{% if commande.isCompleted != true %}
 				<a href="{{path ('app_commandes_is_completed_update', {'id': commande.id}) }}" class="btn btn-outline-success m-1">Marquer commande payée et livrer</a>
 			{% endif %}
