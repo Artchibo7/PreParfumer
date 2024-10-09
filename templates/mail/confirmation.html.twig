@@ -35,39 +35,11 @@
 
 <div class="container">
 
-    <img class="logo" src="{{ logo }}" alt="Logo du site PreParfumer" style="width: 100px; height: 100px;">
+	<h1>Confirmation de la reception de votre  commnande</h1>
 
-	<h1>PreParfumer-Facture :</h1>
-
-	{% include('includes/_flash_message.html.twig') %}
-	<hr>
-	<h3>Facture n°
-		{{ commande.id }}</h3>
-	<span>Date de la commande :
-		{{ commande.createdAt|date('d/m/Y') }}</span>
-	<hr>
-	<h3>Informations du client</h3>
-	<table class="table table-bordered">
-
-		<tr>
-			<th>Nom</th>
-			<th>Prénom</th>
-			<th>Téléphone</th>
-			<th>Adresse</th>
-			<th>Ville</th>
-		</tr>
-
-		<tr>
-			<td>{{ commande.nom }}</td>
-			<td>{{ commande.prenom }}</td>
-			<td>{{ commande.telephone }}</td>
-			<td>{{ commande.adresse }}</td>
-			<td>{{ commande.ville.nom }}</td>
-		</tr>
-	</table>
-
-
-	<hr>
+    <p>Nous vous confirmons la bonne réception de votre commande et vous remercions pour votre confiance, nous vous contacterons dans les plus brefs délais.</p>
+    
+    <hr>
 	<h3>Recapitulatif de la commande</h3>
 	<table class="table table-bordered">
 		<tr>
@@ -79,7 +51,7 @@
 
 		{% for produit in commande.commandeProduits %}
 			<tr>
-				<td>{{ produit.produit.nom }}</td>
+				<th>{{ produit.produit.nom }}</th>
 				<td>{{ produit.produit.prix }}€</td>
 				<td>{{ produit.quantite }}</td>
 				<td>{{ produit.produit.prix * produit.quantite }}€</td>

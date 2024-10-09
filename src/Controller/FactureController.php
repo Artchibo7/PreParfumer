@@ -16,24 +16,33 @@ class FactureController extends AbstractController
     {
         $commande = $commandeRepository->find($id);
      
-        // Génération du PDF ici...
-        $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont', 'Arial');
-        $domPdf = new Dompdf($pdfOptions);
+       // Génération du PDF ici...
+       $pdfOptions = new Options();
+       $pdfOptions->set('defaultFont', 'Arial');
+       $pdfOptions->setIsRemoteEnabled(true); // Nouvelle conf
+       $pdfOptions->set('isHtml5ParserEnabled', true); // Nouvelle conf
+       $domPdf = new Dompdf($pdfOptions);
 
-        $html = $this->renderView('facture/index.html.twig', [
-            'commande' => $commande,
-        ]);
+       // Récupère et converti l'image en base64
+       $pathToImage = $this->getParameter('kernel.project_dir') . '/public/uploads/images/WPreParfumerLogo.jpg';
+       $rawLogo = file_get_contents($pathToImage);
+       $rawMime = mime_content_type($pathToImage);
+       $logo = "data:{$rawMime};base64," . base64_encode($rawLogo);
 
-        $domPdf->loadHtml($html);
-        $domPdf->setPaper('A4', 'portrait');
-        $domPdf->render();
-        $domPdf->stream("PreParfumer-facture" . $commande->getId() . ".pdf", [
-            "Attachment" => false
-        ]);
+       // Appel du template
+       $html = $this->renderView('facture/index.html.twig', [
+           'commande' => $commande,
+           'logo' => $logo
+       ]);
 
-        return new Response(null, 200, [
-            'Content-Type' => 'application/pdf',
-        ]);
+       $domPdf->loadHtml($html);
+       $domPdf->setPaper('A4', 'portrait');
+       $domPdf->render();
+       $output = $domPdf->output();
+
+       return new Response($output, 200, [
+           'Content-Type' => 'application/pdf',
+       ]);
     }
+    
 }

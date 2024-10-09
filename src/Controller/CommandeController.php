@@ -15,11 +15,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 class CommandeController extends AbstractController {
+
+    public function __construct(private MailerInterface $mailer){}
+
     #[Route('/commande', name: 'app_commande')]
-    public function index(Request $request, SessionInterface $session, ProduitRepository $produitRepository, EntityManagerInterface $entityManager, Panier $panier): Response {
+    public function index(Request $request, SessionInterface $session, ProduitRepository $produitRepository, EntityManagerInterface $entityManager, Panier $panier, CommandeRepository $commandeRepository): Response {
 
         $data = $panier->getPanier($session, $produitRepository);
 
@@ -51,7 +56,22 @@ class CommandeController extends AbstractController {
 
                 $session->set('panier', []);
 
-            return $this->redirectToRoute('app_commande_message', [], Response::HTTP_SEE_OTHER);
+                $newCommande = $commandeRepository->find($commande->getId());
+
+                $html = $this->renderView('mail/confirmation.html.twig', [
+                    'commande' => $newCommande,
+                ]);
+
+
+                $email = (new Email())
+                    ->from('arthur.z@hotmail.fr')
+                    ->to($commande->getEmail())
+                    ->subject('Confirmation de réception de votre commande')
+                    ->html($html);
+
+                    $this->mailer->send($email);
+
+                return $this->redirectToRoute('app_commande_message', [], Response::HTTP_SEE_OTHER);
             }
         }
 
@@ -72,14 +92,12 @@ class CommandeController extends AbstractController {
             $data,
             $request->query->getInt('page', 1),
             2
-        ); 
+        );
 
 
         return $this->render('commande/commande.html.twig', [
             'commandes' => $commande
         ]);
-
-
     }
 
     #[Route('/admin/commande/{id}/is-completed/update', name: 'app_commandes_is_completed_update')]
@@ -94,7 +112,7 @@ class CommandeController extends AbstractController {
 
         $this->addFlash('success', 'La commande a été marquée comme terminée.');
         return $this->redirectToRoute('app_commandes_show');
-    }  
+    }
 
     #[Route('/admin/commande/{id}/remove', name: 'app_commandes_remove')]
     public function removeCommande(Commande $commande, EntityManagerInterface $entityManager): Response {
@@ -109,11 +127,10 @@ class CommandeController extends AbstractController {
 
 
     #[Route('/commande/message', name: 'app_commande_message')]
-    public function commandeMessageAction(SessionInterface $session): Response 
-    {
+    public function commandeMessageAction(SessionInterface $session): Response {
         // Récupérer le panier de la session
         $panier = $session->get('panier', []);
-    
+
         // Vérifier si le panier est vide
         if (empty($panier)) {
             $this->addFlash('warning', 'Votre panier est vide. Vous ne pouvez pas passer de commande sans produits.');
@@ -124,11 +141,11 @@ class CommandeController extends AbstractController {
 
         // Sinon, afficher le message de confirmation de commande
         $this->addFlash('success', 'Votre commande a été enregistrée. Vous recevrez un email de confirmation dans les plus brefs délais.');
-    
+
         return $this->render('commande/commande_message.html.twig');
     }
-    
-    
+
+
 
 
     #[Route('/ville/{id}/livraison/prix', name: 'app_ville_livraison_prix')]
