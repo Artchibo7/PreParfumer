@@ -211,3 +211,18 @@ class Commande
         return $this;
     }
 }
+
+// #[ORM\Column(type: 'boolean', nullable: true)]
+// private ?bool $payOnPlace = null;
+
+// public function isPayOnPlace(): ?bool
+// {
+//     return $this->payOnPlace;
+// }
+
+// public function setPayOnPlace(?bool $payOnPlace): self
+// {
+//     $this->payOnPlace = $payOnPlace;
+
+//     return $this;
+// }

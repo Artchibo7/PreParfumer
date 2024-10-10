@@ -17,16 +17,16 @@ class PanierController extends AbstractController {
 
     // Pour stocker en session sans interoger la bdd on utilise SessionInterface
     public function index(SessionInterface $session, Panier $panier, ProduitRepository $produitRepository): Response {
-       
+
         $data = $panier->getPanier($session, $produitRepository);
-    
+
+
+
         return $this->render('panier/index.html.twig', [
             'items' => $data['panier'],
             'total' => $data['total'],
-            // 'quantite' => $data['quantite'], // Passer la quantité totale à la vue
         ]);
     }
-    
 
     #[Route('/panier/ajout/{id}', name: 'app_panier_new', methods: ['GET'])]
 

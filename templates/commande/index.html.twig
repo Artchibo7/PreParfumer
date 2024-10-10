@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CommandeController!{% endblock %}
+{% block title %}Commandes{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="column">
             <div class="col-8">
                 <h1 class="h1Twig">Commandes</h1>
-                {{ form_start(form) }}
+
+                {{ form_start(form, {'attr': {'data-turbo': 'false'}}) }}
                 {{ form_widget(form) }}
                 <input class="btn btn-success m-1" value="Continuer" type="submit">
                 {{ form_end(form) }}

@@ -40,6 +40,9 @@ class CommandeType extends AbstractType
             ->add('payOnDelivery', null, [
                 'label' => 'Payer à la livraison',
             ]);
+            // ->add('payOnPlace', null, [
+            //     'label'    => 'Payer sur place lors du retrait',
+            // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

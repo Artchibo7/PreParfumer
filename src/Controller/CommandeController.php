@@ -9,6 +9,7 @@ use App\Form\CommandeType;
 use App\Repository\CommandeRepository;
 use App\Repository\ProduitRepository;
 use App\Service\Panier;
+use App\Service\StripePayment;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +25,7 @@ class CommandeController extends AbstractController {
     public function __construct(private MailerInterface $mailer){}
 
     #[Route('/commande', name: 'app_commande')]
-    public function index(Request $request, SessionInterface $session, ProduitRepository $produitRepository, EntityManagerInterface $entityManager, Panier $panier, CommandeRepository $commandeRepository): Response {
+    public function index(Request $request, SessionInterface $session, ProduitRepository $produitRepository, EntityManagerInterface $entityManager, Panier $panier): Response {
 
         $data = $panier->getPanier($session, $produitRepository);
 
@@ -37,6 +38,8 @@ class CommandeController extends AbstractController {
 
             if ($commande->isPayOnDelivery()) {
 
+            // }elseif ($commande->isPayOnPlace()) {
+                    
                 if (!empty($data['total'])) {
 
                     $commande->setPrixTotal($data['total']);
@@ -56,12 +59,9 @@ class CommandeController extends AbstractController {
 
                 $session->set('panier', []);
 
-                $newCommande = $commandeRepository->find($commande->getId());
-
                 $html = $this->renderView('mail/confirmation.html.twig', [
-                    'commande' => $newCommande,
+                    'commande' => $commande
                 ]);
-
 
                 $email = (new Email())
                     ->from('arthur.z@hotmail.fr')
@@ -73,6 +73,16 @@ class CommandeController extends AbstractController {
 
                 return $this->redirectToRoute('app_commande_message', [], Response::HTTP_SEE_OTHER);
             }
+
+            $payment = new StripePayment();
+
+            $fraisDePort = $commande->getVille()->getFraisDePort();
+
+            $payment->startPayment($data, $fraisDePort);
+
+            $stripeRedirectUrl = $payment->getStripeRedirectUrl();
+
+            return $this->redirect($stripeRedirectUrl);
         }
 
         return $this->render('commande/index.html.twig', [
@@ -132,12 +142,12 @@ class CommandeController extends AbstractController {
         $panier = $session->get('panier', []);
 
         // Vérifier si le panier est vide
-        if (empty($panier)) {
-            $this->addFlash('warning', 'Votre panier est vide. Vous ne pouvez pas passer de commande sans produits.');
+        // if (empty($panier)) {
+        //     $this->addFlash('warning', 'Votre panier est vide. Vous ne pouvez pas passer de commande sans produits.');
 
-            // Rediriger vers la page du panier
-            return $this->redirectToRoute('app_panier');
-        }
+        //     // Rediriger vers la page du panier
+        //     return $this->redirectToRoute('app_panier');
+        // }
 
         // Sinon, afficher le message de confirmation de commande
         $this->addFlash('success', 'Votre commande a été enregistrée. Vous recevrez un email de confirmation dans les plus brefs délais.');

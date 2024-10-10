@@ -31,8 +31,6 @@ class Panier
         return [
             'panier' => $panierWithData,
             'total' => $total,
-            // 'quantite' => $quantite
-        ];
-    
+        ];  
     }
 }
